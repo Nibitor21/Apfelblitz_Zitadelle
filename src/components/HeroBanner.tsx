@@ -109,13 +109,6 @@ const HeroBanner = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.9 }}
         >
-          <Button 
-            size="lg"
-            className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-black font-bold px-8 py-4 text-lg rounded-full shadow-2xl hover:shadow-yellow-500/25 transition-all duration-300 group"
-          >
-            <span>Jetzt Äpfel kaufen</span>
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
           
           <Button 
             variant="outline"
@@ -126,32 +119,6 @@ const HeroBanner = () => {
             <span>Live Transaktionen</span>
           </Button>
         </motion.div>
-
-        {/* Floating Feature Cards */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.2 }}
-        >
-          {[
-            { icon: Zap, title: 'Instant Payment', desc: 'Sekunden-schnelle Zahlungen', color: 'from-cyan-500/20 to-blue-500/20 border-cyan-400/30' },
-            { icon: Bitcoin, title: 'Bitcoin Only', desc: 'Echtes digitales Geld', color: 'from-yellow-500/20 to-orange-500/20 border-yellow-400/30' },
-            { icon: Sparkles, title: 'Bio-Qualität', desc: 'Frisch vom Baum', color: 'from-green-500/20 to-emerald-500/20 border-green-400/30' }
-          ].map((feature, index) => (
-            <motion.div 
-              key={index}
-              className={`p-6 bg-gradient-to-br ${feature.color} backdrop-blur-sm border rounded-2xl hover:scale-105 transition-all duration-300 cursor-pointer group`}
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <feature.icon className="h-8 w-8 text-white mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-              <p className="text-gray-300">{feature.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
 
       {/* Bottom Gradient Fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"></div>
