@@ -18,7 +18,7 @@ const AppleProducts = () => {
   const products = [
     {
       id: 'green',
-      name: 'Granny Smith',
+      name: 'Golden Delicious',
       description: 'Fresh & Crunchy',
       emoji: '🍏',
       gradient: 'from-emerald-400 via-green-500 to-teal-600',
@@ -30,7 +30,7 @@ const AppleProducts = () => {
     },
     {
       id: 'red',
-      name: 'Red Delicious',
+      name: 'Gala Royal',
       description: 'Sweet & Juicy',
       emoji: '🍎',
       gradient: 'from-rose-400 via-red-500 to-pink-600',
