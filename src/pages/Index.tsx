@@ -6,7 +6,6 @@ import HeroBanner from '@/components/HeroBanner';
 import WalletBalance from '@/components/WalletBalance';
 import TransactionTable from '@/components/TransactionTable';
 import AppleProducts from '@/components/AppleProducts';
-import PaymentModal from '@/components/PaymentModal';
 import { Zap } from 'lucide-react';
 
 const Index = () => {
@@ -47,7 +46,7 @@ const Index = () => {
       {/* Main Content */}
       <div className="relative z-10 px-4 md:px-6 py-16 space-y-20 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
         
-        {/* Apple Products Section */}
+        {/* Apple Products & Lightning Payment Section */}
         <motion.section 
           className="flex flex-col items-center"
           initial={{ opacity: 0, y: 50 }}
@@ -102,25 +101,6 @@ const Index = () => {
             </p>
           </div>
           <TransactionTable />
-        </motion.section>
-
-        {/* Payment Modal Section */}
-        <motion.section 
-          className="flex flex-col items-center"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
-              Lightning Payment
-            </h2>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
-              Nutze unsere LNURL für direkte Lightning-Zahlungen. Einfach scannen oder kopieren.
-            </p>
-          </div>
-          <PaymentModal />
         </motion.section>
 
         {/* Footer Section */}
