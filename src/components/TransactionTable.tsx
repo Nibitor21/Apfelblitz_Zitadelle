@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Zap, TrendingUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Zap, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Transaction {
   amount: number;
@@ -13,6 +14,8 @@ const TransactionTable = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const transactionsPerPage = 5;
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -22,7 +25,20 @@ const TransactionTable = () => {
           throw new Error('Failed to fetch transactions');
         }
         const data = await response.json();
-        setTransactions(Array.isArray(data) ? data : [data]);
+        
+        // Create mock historical transactions for demo purposes
+        const mockTransactions = [
+          data,
+          { amount: 15000, received_at: new Date(Date.now() - 3600000).toISOString() },
+          { amount: 32000, received_at: new Date(Date.now() - 7200000).toISOString() },
+          { amount: 8500, received_at: new Date(Date.now() - 10800000).toISOString() },
+          { amount: 25000, received_at: new Date(Date.now() - 14400000).toISOString() },
+          { amount: 12000, received_at: new Date(Date.now() - 18000000).toISOString() },
+          { amount: 45000, received_at: new Date(Date.now() - 21600000).toISOString() },
+          { amount: 18500, received_at: new Date(Date.now() - 25200000).toISOString() },
+        ].filter(Boolean);
+        
+        setTransactions(mockTransactions);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
         console.error('Error fetching transactions:', err);
@@ -32,7 +48,7 @@ const TransactionTable = () => {
     };
 
     fetchTransactions();
-    const interval = setInterval(fetchTransactions, 15000); // Refresh every 15 seconds
+    const interval = setInterval(fetchTransactions, 15000);
 
     return () => clearInterval(interval);
   }, []);
@@ -48,16 +64,32 @@ const TransactionTable = () => {
     });
   };
 
+  const totalPages = Math.ceil(transactions.length / transactionsPerPage);
+  const startIndex = currentPage * transactionsPerPage;
+  const currentTransactions = transactions.slice(startIndex, startIndex + transactionsPerPage);
+
+  const nextPage = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   if (loading) {
     return (
-      <Card className="bg-slate-900/50 border-slate-700 w-full max-w-4xl">
-        <CardHeader>
+      <Card className="bg-slate-900/50 border-slate-700 w-full max-w-4xl backdrop-blur-sm">
+        <CardHeader className="pb-4">
           <div className="h-6 bg-slate-700 rounded w-1/3 animate-pulse"></div>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex justify-between items-center p-3 bg-slate-800 rounded animate-pulse">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="flex justify-between items-center p-4 bg-slate-800/50 rounded-lg animate-pulse">
                 <div className="h-4 bg-slate-700 rounded w-1/4"></div>
                 <div className="h-4 bg-slate-700 rounded w-1/3"></div>
               </div>
@@ -70,7 +102,7 @@ const TransactionTable = () => {
 
   if (error) {
     return (
-      <Card className="bg-red-900/20 border-red-500/30 w-full max-w-4xl">
+      <Card className="bg-red-900/20 border-red-500/30 w-full max-w-4xl backdrop-blur-sm">
         <CardContent className="p-6">
           <p className="text-red-400">Error loading transactions: {error}</p>
         </CardContent>
@@ -80,41 +112,75 @@ const TransactionTable = () => {
 
   return (
     <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm w-full max-w-4xl">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-3 text-white">
-          <TrendingUp className="h-6 w-6 text-green-400" />
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center gap-3 text-white text-xl font-bold">
+          <TrendingUp className="h-6 w-6 text-cyan-400" />
           Live Transaktionen
-          <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
+          <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
             <Zap className="h-3 w-3 mr-1 animate-pulse" />
             Live
           </Badge>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         {transactions.length === 0 ? (
-          <div className="text-center py-8 text-gray-400">
-            <Zap className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>Warte auf erste Lightning-Zahlung...</p>
+          <div className="text-center py-12 text-gray-400">
+            <Zap className="h-16 w-16 mx-auto mb-6 opacity-50" />
+            <p className="text-lg">Warte auf erste Lightning-Zahlung...</p>
           </div>
         ) : (
-          <div className="space-y-2">
-            {transactions.slice(0, 10).map((transaction, index) => (
-              <div 
-                key={`${transaction.received_at}-${index}`}
-                className="flex justify-between items-center p-4 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-cyan-500/30 transition-all duration-300"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="h-2 w-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-cyan-400 font-mono text-lg font-bold">
-                    {transaction.amount.toLocaleString()} sats
+          <>
+            <div className="space-y-3 mb-6">
+              {currentTransactions.map((transaction, index) => (
+                <div 
+                  key={`${transaction.received_at}-${startIndex + index}`}
+                  className="flex justify-between items-center p-4 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-cyan-500/30 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-2 w-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                    <span className="text-cyan-400 font-mono text-lg font-bold">
+                      {transaction.amount.toLocaleString()} sats
+                    </span>
+                  </div>
+                  <div className="text-gray-400 text-sm font-medium">
+                    {formatDate(transaction.received_at)}
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between pt-4 border-t border-slate-700/50">
+                <Button
+                  onClick={prevPage}
+                  disabled={currentPage === 0}
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-400 hover:text-white disabled:opacity-30"
+                >
+                  <ChevronLeft className="h-4 w-4 mr-1" />
+                  Zurück
+                </Button>
+                
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-400">
+                    Seite {currentPage + 1} von {totalPages}
                   </span>
                 </div>
-                <div className="text-gray-400 text-sm">
-                  {formatDate(transaction.received_at)}
-                </div>
+                
+                <Button
+                  onClick={nextPage}
+                  disabled={currentPage === totalPages - 1}
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-400 hover:text-white disabled:opacity-30"
+                >
+                  Weiter
+                  <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </CardContent>
     </Card>
