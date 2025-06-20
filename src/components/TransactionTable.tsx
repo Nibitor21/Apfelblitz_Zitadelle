@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +15,7 @@ const TransactionTable = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const transactionsPerPage = 5;
+  const maxTransactions = 20;
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -24,21 +24,16 @@ const TransactionTable = () => {
         if (!response.ok) {
           throw new Error('Failed to fetch transactions');
         }
-        const data = await response.json();
-        
-        // Create mock historical transactions for demo purposes
-        const mockTransactions = [
-          data,
-          { amount: 15000, received_at: new Date(Date.now() - 3600000).toISOString() },
-          { amount: 32000, received_at: new Date(Date.now() - 7200000).toISOString() },
-          { amount: 8500, received_at: new Date(Date.now() - 10800000).toISOString() },
-          { amount: 25000, received_at: new Date(Date.now() - 14400000).toISOString() },
-          { amount: 12000, received_at: new Date(Date.now() - 18000000).toISOString() },
-          { amount: 45000, received_at: new Date(Date.now() - 21600000).toISOString() },
-          { amount: 18500, received_at: new Date(Date.now() - 25200000).toISOString() },
-        ].filter(Boolean);
-        
-        setTransactions(mockTransactions);
+        const data: Transaction = await response.json();
+
+        // Duplikat-Prüfung über Timestamp
+        setTransactions(prev => {
+          const alreadyExists = prev.some(tx => tx.received_at === data.received_at);
+          if (alreadyExists) return prev;
+
+          const updated = [data, ...prev];
+          return updated.slice(0, maxTransactions); // Liste begrenzen
+        });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
         console.error('Error fetching transactions:', err);
@@ -49,7 +44,6 @@ const TransactionTable = () => {
 
     fetchTransactions();
     const interval = setInterval(fetchTransactions, 15000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -148,7 +142,7 @@ const TransactionTable = () => {
                 </div>
               ))}
             </div>
-            
+
             {totalPages > 1 && (
               <div className="flex items-center justify-between pt-4 border-t border-slate-700/50">
                 <Button
