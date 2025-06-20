@@ -15,7 +15,7 @@ const TransactionTable = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const transactionsPerPage = 5;
-  const maxTransactions = 20;
+  const maxTransactions = 210;
 
   useEffect(() => {
     const fetchTransactions = async () => {
