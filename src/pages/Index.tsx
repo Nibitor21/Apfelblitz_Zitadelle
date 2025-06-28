@@ -95,9 +95,8 @@ const Index = () => {
           </p>
           
           <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-            <span>🍎 Frische Bio-Äpfel</span>
+            <span>🍎 Frische Äpfel</span>
             <span>⚡ Lightning Network</span>
-            <span>🎨 Digital Art Installation</span>
             <span>🏰 Bitcoin Zitadelle</span>
           </div>
           
