@@ -91,16 +91,6 @@ const HeroBanner = () => {
           </motion.div>
         </motion.div>
 
-        {/* Subtitle */}
-        <motion.p 
-          className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed font-light"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.6 }}
-        >
-          Frische Bio-Äpfel gegen Sats. Erlebe die Zukunft des digitalen Handels – 
-          <span className="text-cyan-400 font-medium"> instant, günstig, grenzenlos</span>.
-        </motion.p>
 
         {/* CTA Buttons */}
         <motion.div 
