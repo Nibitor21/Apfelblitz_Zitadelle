@@ -3,6 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Zap, Bitcoin, ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import TransactionCounter from './TransactionCounter';
 
 const HeroBanner = () => {
   return (
@@ -91,12 +92,22 @@ const HeroBanner = () => {
           </motion.div>
         </motion.div>
 
+        {/* Transaction Counter */}
+        <motion.div 
+          className="mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.1 }}
+        >
+          <TransactionCounter />
+        </motion.div>
+
         {/* CTA Buttons */}
         <motion.div 
           className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.9 }}
+          transition={{ duration: 1, delay: 1.3 }}
         >
           <Button 
             variant="outline"
