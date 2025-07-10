@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Zap, Wallet, DollarSign, Sparkles } from 'lucide-react';
@@ -18,7 +17,7 @@ const WalletBalance = () => {
   useEffect(() => {
     const fetchBalances = async () => {
       try {
-        const response = await fetch('https://testa.apfelblitz.de/api/balance_webhook');
+        const response = await fetch('http://127.0.0.1:5013/api/balance_webhook');
         if (!response.ok) {
           throw new Error('Failed to fetch balances');
         }

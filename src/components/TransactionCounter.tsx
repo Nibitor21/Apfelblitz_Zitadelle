@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, TrendingUp } from 'lucide-react';
 
 interface CounterData {
-  total_transactions: number;
+  count: number;
 }
 
 const TransactionCounter = () => {
@@ -15,12 +14,12 @@ const TransactionCounter = () => {
   useEffect(() => {
     const fetchCounter = async () => {
       try {
-        const response = await fetch('https://testa.apfelblitz.de/api/counter_webhook');
+        const response = await fetch('http://127.0.0.1:5013/api/counter_webhook');
         if (!response.ok) {
           throw new Error('Failed to fetch counter');
         }
         const data: CounterData = await response.json();
-        setCounter(data.total_transactions);
+        setCounter(data.count);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
         console.error('Error fetching counter:', err);
