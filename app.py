@@ -204,15 +204,16 @@ def api_balance_webhook():
         logging.error(f"Fehler bei /api/balance_webhook: {str(e)}")
         return jsonify({"error": "Serverfehler"}), 500
 
-# === Neuer API-Endpunkt: Gesamtzahl aller Webhooks ===
+# === Neuer API-Endpunkt: Gesamtzahl aller Incoming Payments ===
 @app.route('/api/counter_webhook', methods=['GET'])
 def api_counter_webhook():
     try:
         with sqlite3.connect(DB_PATH) as conn:
             cursor = conn.cursor()
-            cursor.execute('SELECT MAX(id) FROM webhook_eingang')
+            # Zähle alle Zeilen statt die größte ID
+            cursor.execute('SELECT COUNT(*) FROM webhook_eingang')
             row = cursor.fetchone()
-            count = row[0] if row and row[0] is not None else 0
+            count = row[0] if row else 0
             return jsonify({"count": count})
     except Exception as e:
         logging.error(f"Fehler bei /api/counter_webhook: {str(e)}")
