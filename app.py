@@ -82,7 +82,7 @@ def store_webhook(data):
                 datetime.now(timezone.utc).isoformat(),
                 data.get("payment_hash"),
                 data.get("payment_request"),
-                data.get("amount"),  # in msats
+                data.get("amount"),
                 data.get("comment"),
                 data.get("webhook_data"),
                 data.get("lnurlp"),
@@ -106,6 +106,7 @@ def fetch_and_store_wallet_balance(wallet_id, wallet_key):
         response.raise_for_status()
 
         wallet_data = response.json()
+
         if wallet_data.get("id") != wallet_id:
             logging.warning(f"Erhaltene Wallet-ID stimmt nicht mit erwarteter ({wallet_id}) überein.")
             return
@@ -122,7 +123,7 @@ def fetch_and_store_wallet_balance(wallet_id, wallet_key):
             ''', (
                 wallet_data["id"],
                 wallet_data["name"],
-                wallet_data["balance"],  # in msats
+                wallet_data["balance"],  # Millisatoshis
                 datetime.now(timezone.utc).isoformat()
             ))
             conn.commit()
@@ -147,7 +148,7 @@ def webhook_apfel():
         logging.debug(f"Payload:\n{json.dumps(payload, indent=2)}")
 
         store_webhook(payload)
-        time.sleep(10)  # 10 Sekunden warten
+        time.sleep(10)  # 10 Sekunde warten
 
         fetch_and_store_wallet_balance(WALLET_1_ID, WALLET_1_KEY)
         fetch_and_store_wallet_balance(WALLET_2_ID, WALLET_2_KEY)
@@ -164,15 +165,13 @@ def api_payment_webhook():
         with sqlite3.connect(DB_PATH) as conn:
             cursor = conn.cursor()
             cursor.execute('''
-                SELECT amount, received_at, comment, lnurlp
-                FROM webhook_eingang
-                ORDER BY received_at DESC
-                LIMIT 1
+                SELECT amount, received_at, comment, lnurlp FROM webhook_eingang
+                ORDER BY received_at DESC LIMIT 1
             ''')
             row = cursor.fetchone()
             if row:
                 return jsonify({
-                    "amount": row[0] // 1000,   # msats → sats
+                    "amount": row[0],
                     "received_at": row[1]
                 })
             else:
@@ -188,35 +187,18 @@ def api_balance_webhook():
         with sqlite3.connect(DB_PATH) as conn:
             cursor = conn.cursor()
             cursor.execute('''
-                SELECT wallet_name, balance
-                FROM wallet_balances
+                SELECT wallet_name, balance FROM wallet_balances
                 ORDER BY updated_at DESC
             ''')
             rows = cursor.fetchall()
             return jsonify([
                 {
                     "wallet_name": row[0],
-                    "balance": row[1] // 1000   # msats → sats
-                }
-                for row in rows
+                    "balance": row[1] // 1000  # von millisats zu sats
+                } for row in rows
             ])
     except Exception as e:
         logging.error(f"Fehler bei /api/balance_webhook: {str(e)}")
-        return jsonify({"error": "Serverfehler"}), 500
-
-# === Neuer API-Endpunkt: Gesamtzahl aller Incoming Payments ===
-@app.route('/api/counter_webhook', methods=['GET'])
-def api_counter_webhook():
-    try:
-        with sqlite3.connect(DB_PATH) as conn:
-            cursor = conn.cursor()
-            # Zähle alle Zeilen statt die größte ID
-            cursor.execute('SELECT COUNT(*) FROM webhook_eingang')
-            row = cursor.fetchone()
-            count = row[0] if row else 0
-            return jsonify({"count": count})
-    except Exception as e:
-        logging.error(f"Fehler bei /api/counter_webhook: {str(e)}")
         return jsonify({"error": "Serverfehler"}), 500
 
 # === Start ===
