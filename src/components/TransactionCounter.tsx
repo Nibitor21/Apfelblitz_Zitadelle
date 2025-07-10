@@ -14,7 +14,7 @@ const TransactionCounter = () => {
   useEffect(() => {
     const fetchCounter = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5013/api/counter_webhook');
+        const response = await fetch('https://testa.apfelblitz.de/api/counter_webhook');
         if (!response.ok) {
           throw new Error('Failed to fetch counter');
         }

@@ -20,7 +20,7 @@ const TransactionTable = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5013/api/payment_webhook');
+        const response = await fetch('https://testa.apfelblitz.de/api/payment_webhook');
         if (!response.ok) {
           throw new Error('Failed to fetch transactions');
         }
