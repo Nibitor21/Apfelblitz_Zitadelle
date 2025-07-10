@@ -47,14 +47,53 @@ const TransactionTable = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString('de-DE', {
+  const formatRelativeTime = (dateString: string) => {
+    const now = new Date();
+    const transactionDate = new Date(dateString);
+    const diffInSeconds = Math.floor((now.getTime() - transactionDate.getTime()) / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+
+    // Just now (less than 1 minute)
+    if (diffInSeconds < 60) {
+      return "Gerade eben";
+    }
+
+    // Less than 1 hour
+    if (diffInMinutes < 60) {
+      return `vor ${diffInMinutes} Min`;
+    }
+
+    // Today (same day)
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    if (transactionDate >= todayStart) {
+      return "Heute";
+    }
+
+    // Yesterday
+    const yesterdayStart = new Date(todayStart);
+    yesterdayStart.setDate(yesterdayStart.getDate() - 1);
+    if (transactionDate >= yesterdayStart) {
+      return "Gestern";
+    }
+
+    // This week (within 7 days)
+    if (diffInDays <= 7) {
+      return "Diese Woche";
+    }
+
+    // This month (same month and year)
+    if (transactionDate.getMonth() === now.getMonth() && 
+        transactionDate.getFullYear() === now.getFullYear()) {
+      return "Diesen Monat";
+    }
+
+    // Older than this month - show actual date
+    return transactionDate.toLocaleDateString('de-DE', {
       day: '2-digit',
       month: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
+      year: '2-digit'
     });
   };
 
@@ -137,7 +176,7 @@ const TransactionTable = () => {
                     </span>
                   </div>
                   <div className="text-gray-400 text-sm font-medium">
-                    {formatDate(transaction.received_at)}
+                    {formatRelativeTime(transaction.received_at)}
                   </div>
                 </div>
               ))}
