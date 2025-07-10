@@ -82,7 +82,7 @@ def store_webhook(data):
                 datetime.now(timezone.utc).isoformat(),
                 data.get("payment_hash"),
                 data.get("payment_request"),
-                data.get("amount"),
+                data.get("amount"),  # msats
                 data.get("comment"),
                 data.get("webhook_data"),
                 data.get("lnurlp"),
@@ -106,7 +106,6 @@ def fetch_and_store_wallet_balance(wallet_id, wallet_key):
         response.raise_for_status()
 
         wallet_data = response.json()
-
         if wallet_data.get("id") != wallet_id:
             logging.warning(f"Erhaltene Wallet-ID stimmt nicht mit erwarteter ({wallet_id}) überein.")
             return
@@ -123,7 +122,7 @@ def fetch_and_store_wallet_balance(wallet_id, wallet_key):
             ''', (
                 wallet_data["id"],
                 wallet_data["name"],
-                wallet_data["balance"],  # Millisatoshis
+                wallet_data["balance"],  # msats
                 datetime.now(timezone.utc).isoformat()
             ))
             conn.commit()
@@ -148,7 +147,7 @@ def webhook_apfel():
         logging.debug(f"Payload:\n{json.dumps(payload, indent=2)}")
 
         store_webhook(payload)
-        time.sleep(10)  # 10 Sekunde warten
+        time.sleep(10)  # 10 Sekunden warten
 
         fetch_and_store_wallet_balance(WALLET_1_ID, WALLET_1_KEY)
         fetch_and_store_wallet_balance(WALLET_2_ID, WALLET_2_KEY)
@@ -171,7 +170,8 @@ def api_payment_webhook():
             row = cursor.fetchone()
             if row:
                 return jsonify({
-                    "amount": row[0],
+                    # Hier erfolgt die Umrechnung von msats → sats
+                    "amount": row[0] // 1000,
                     "received_at": row[1]
                 })
             else:
@@ -194,7 +194,7 @@ def api_balance_webhook():
             return jsonify([
                 {
                     "wallet_name": row[0],
-                    "balance": row[1] // 1000  # von millisats zu sats
+                    "balance": row[1] // 1000  # msats → sats
                 } for row in rows
             ])
     except Exception as e:
