@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, TrendingUp } from 'lucide-react';
+import { TrendingUp, Zap, AlertCircle } from 'lucide-react';
 
 interface CounterData {
   count: number;
@@ -11,26 +12,33 @@ const TransactionCounter = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCounter = async () => {
-      try {
-        const response = await fetch('https://testa.apfelblitz.de/api/counter_webhook');
-        if (!response.ok) {
-          throw new Error('Failed to fetch counter');
-        }
-        const data: CounterData = await response.json();
-        setCounter(data.count);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-        console.error('Error fetching counter:', err);
-      } finally {
-        setLoading(false);
+  const fetchCounter = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5013/api/counter_webhook');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
+      const data: CounterData = await response.json();
+      console.log('Counter data received:', data);
+      
+      if (typeof data.count === 'number') {
+        setCounter(data.count);
+        setError(null);
+      } else {
+        throw new Error('Invalid counter data format');
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(errorMessage);
+      console.error('Error fetching counter:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCounter();
     const interval = setInterval(fetchCounter, 15000); // Update every 15 seconds
-
     return () => clearInterval(interval);
   }, []);
 
@@ -54,8 +62,11 @@ const TransactionCounter = () => {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center justify-center gap-4 px-8 py-6 bg-red-900/20 backdrop-blur-sm border border-red-500/30 rounded-2xl"
       >
-        <Zap className="h-6 w-6 text-red-400" />
-        <span className="text-red-400 text-sm">Error loading counter</span>
+        <AlertCircle className="h-6 w-6 text-red-400" />
+        <div className="text-center">
+          <span className="text-red-400 text-sm font-medium">Counter nicht verfügbar</span>
+          <p className="text-red-400/70 text-xs mt-1">Backend-Verbindung fehlgeschlagen</p>
+        </div>
       </motion.div>
     );
   }
