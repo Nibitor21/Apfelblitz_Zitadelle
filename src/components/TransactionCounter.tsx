@@ -14,18 +14,18 @@ const TransactionCounter = () => {
 
   const fetchCounter = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5013/api/counter_webhook');
+      const response = await fetch('https://aurora.lnbot.de/api/payment_webhook');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data: CounterData = await response.json();
-      console.log('Counter data received:', data);
+      const data = await response.json();
+      console.log('Payment data received:', data);
       
-      if (typeof data.count === 'number') {
-        setCounter(data.count);
+      // Da wir nur die letzte Zahlung bekommen, simulieren wir einen Counter
+      // In der Realität würden Sie einen separaten Counter-Endpunkt haben
+      if (data.amount && data.received_at) {
+        setCounter(prev => prev + 1);
         setError(null);
-      } else {
-        throw new Error('Invalid counter data format');
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
@@ -129,7 +129,7 @@ const TransactionCounter = () => {
             </motion.span>
           </div>
           <p className="text-gray-300 text-sm font-medium">
-            Gesamte Transaktionen
+            Aktive Transaktionen
           </p>
         </div>
 

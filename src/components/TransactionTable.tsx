@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -20,7 +21,7 @@ const TransactionTable = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const response = await fetch('https://testa.apfelblitz.de/api/payment_webhook');
+        const response = await fetch('https://aurora.lnbot.de/api/payment_webhook');
         if (!response.ok) {
           throw new Error('Failed to fetch transactions');
         }
