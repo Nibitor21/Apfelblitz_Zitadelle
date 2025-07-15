@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,5 +100,205 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Courier New', monospace;
   }
+}
+
+/* Matrix Theme Styles */
+@layer components {
+  .matrix-terminal {
+    @apply bg-black/80 border border-green-500/30 rounded-lg backdrop-blur-sm;
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.2), inset 0 0 20px rgba(34, 197, 94, 0.1);
+    position: relative;
+  }
+
+  .matrix-terminal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #22c55e, transparent);
+    animation: scanline 2s linear infinite;
+  }
+
+  .matrix-line {
+    @apply bg-black/40 border border-green-900/30 rounded px-4 py-2 relative;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .matrix-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .matrix-line:hover::before {
+    left: 100%;
+  }
+
+  .matrix-pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-mono border;
+    background: rgba(0, 0, 0, 0.7);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+  }
+
+  .matrix-loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid #22c55e;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .glitch-text {
+    position: relative;
+    animation: glitch 2s infinite;
+  }
+
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch-text::before {
+    animation: glitch-1 2s infinite;
+    color: #ff0000;
+    z-index: -1;
+  }
+
+  .glitch-text::after {
+    animation: glitch-2 2s infinite;
+    color: #00ffff;
+    z-index: -2;
+  }
+
+  .matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .matrix-rain::before {
+    content: '';
+    position: absolute;
+    top: -100vh;
+    left: 0;
+    width: 100%;
+    height: 200vh;
+    background-image: 
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(34, 197, 94, 0.03) 2px,
+        rgba(34, 197, 94, 0.03) 4px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(34, 197, 94, 0.03) 2px,
+        rgba(34, 197, 94, 0.03) 4px
+      );
+    animation: matrix-fall 20s linear infinite;
+  }
+
+  .scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(34, 197, 94, 0.05) 2px,
+      rgba(34, 197, 94, 0.05) 4px
+    );
+    pointer-events: none;
+    animation: scanlines-move 0.1s linear infinite;
+  }
+}
+
+/* Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-1 {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(-1px, -1px); }
+  60% { transform: translate(1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+}
+
+@keyframes glitch-2 {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(1px, -1px); }
+  40% { transform: translate(1px, 1px); }
+  60% { transform: translate(-1px, -1px); }
+  80% { transform: translate(-1px, 1px); }
+}
+
+@keyframes scanline {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes matrix-fall {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes scanlines-move {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #22c55e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
 }

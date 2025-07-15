@@ -1,127 +1,162 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Zap, Bitcoin, ArrowRight, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import TransactionCounter from './TransactionCounter';
+import { Eye, Zap, Terminal } from 'lucide-react';
 
 const HeroBanner = () => {
   return (
-    <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient Mesh */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-green-500/10 to-cyan-500/10 rounded-full blur-2xl animate-pulse delay-2000"></div>
-        
-        {/* Floating Lightning Bolts */}
-        {[...Array(8)].map((_, i) => (
+    <div className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black">
+      {/* Matrix Code Rain Background */}
+      <div className="absolute inset-0 overflow-hidden opacity-30">
+        {[...Array(50)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: [0, 1, 0], 
-              scale: [0, 1, 0],
-              rotate: [0, 360],
-              x: [Math.random() * window.innerWidth, Math.random() * window.innerWidth],
-              y: [Math.random() * window.innerHeight, Math.random() * window.innerHeight]
+            className="absolute text-green-400 font-mono text-sm"
+            animate={{
+              y: [0, window.innerHeight + 100],
+              opacity: [0, 1, 1, 0],
             }}
             transition={{
-              duration: 4,
+              duration: Math.random() * 10 + 10,
               repeat: Infinity,
-              delay: i * 0.5,
-              repeatDelay: 2
+              delay: Math.random() * 5,
+              ease: "linear",
+            }}
+            style={{
+              left: `${Math.random() * 100}%`,
             }}
           >
-            <Zap className="h-4 w-4 text-cyan-400/60" />
+            {Array.from({ length: Math.floor(Math.random() * 20) + 5 }, (_, j) => (
+              <div key={j} style={{ opacity: Math.max(0, 1 - j * 0.1) }}>
+                {String.fromCharCode(0x30A0 + Math.random() * 96)}
+              </div>
+            ))}
           </motion.div>
         ))}
+      </div>
 
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+      {/* Glitch Grid Overlay */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="w-full h-full" style={{
+          backgroundImage: `
+            linear-gradient(rgba(34, 197, 94, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(34, 197, 94, 0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }}></div>
       </div>
 
       {/* Main Hero Content */}
       <div className="relative z-10 text-center px-6 max-w-7xl mx-auto">
         
-        {/* Bitcoin Zitadelle Badge */}
+        {/* System Boot Message */}
         <motion.div 
           className="mb-8"
-          initial={{ scale: 0.8, opacity: 0, y: 20 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
         >
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 backdrop-blur-sm border border-yellow-500/30 rounded-full">
-            <Sparkles className="h-5 w-5 text-yellow-400" />
-            <span className="text-yellow-400 font-semibold text-lg">Bitcoin Zitadelle Festival 2025</span>
-            <Sparkles className="h-5 w-5 text-yellow-400" />
+          <div className="matrix-pill bg-red-900/30 border-red-400 text-red-300 mb-4">
+            <Terminal className="h-4 w-4 mr-2" />
+            SYSTEM_INITIALIZED // BITCOIN_ZITADELLE_2025
           </div>
         </motion.div>
 
-        {/* Main Headline */}
+        {/* Main Title */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="mb-8"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          className="mb-12"
         >
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black leading-tight mb-6">
-            <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent drop-shadow-2xl">
-              Lightning Fast
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-black leading-tight mb-8 font-mono">
+            <span className="text-red-400 glitch-text block mb-4">
+              WAKE UP
             </span>
-            <br />
-            <span className="bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 bg-clip-text text-transparent drop-shadow-2xl">
-              Apple Trading
+            <span className="text-green-400 glitch-text block">
+              NEO
             </span>
           </h1>
           
+          <div className="text-2xl md:text-4xl font-mono text-green-300 mb-8">
+            THE_MATRIX_HAS_YOU...
+          </div>
+          
           <motion.div 
-            className="flex items-center justify-center gap-4 mb-8"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            className="flex items-center justify-center gap-6 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.2 }}
           >
-            <div className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent w-20"></div>
-            <div className="flex items-center gap-3 px-4 py-2 bg-slate-800/50 backdrop-blur-sm border border-cyan-400/30 rounded-full">
-              <Zap className="h-6 w-6 text-cyan-400 animate-pulse" />
-              <span className="text-cyan-400 font-semibold text-xl">Powered by Bitcoin Lightning Network</span>
+            <div className="matrix-line px-6 py-3">
+              <div className="flex items-center gap-3">
+                <Zap className="h-6 w-6 text-yellow-400 animate-pulse" />
+                <span className="text-green-400 font-mono text-xl font-bold">
+                  POWERED_BY_LIGHTNING_NETWORK
+                </span>
+              </div>
             </div>
-            <div className="h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent w-20"></div>
           </motion.div>
         </motion.div>
 
-        {/* Transaction Counter */}
+        {/* The Choice Introduction */}
         <motion.div 
-          className="mb-12"
+          className="mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.1 }}
+          transition={{ duration: 1, delay: 1.8 }}
         >
-          <TransactionCounter />
+          <div className="matrix-terminal max-w-4xl mx-auto p-8">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <Eye className="h-8 w-8 text-green-400 animate-pulse" />
+              <h2 className="text-3xl md:text-4xl font-bold text-green-400 font-mono">
+                THE_CHOICE_IS_COMING
+              </h2>
+              <Eye className="h-8 w-8 text-red-400 animate-pulse" />
+            </div>
+            
+            <p className="text-green-300 text-lg md:text-xl font-mono leading-relaxed mb-6">
+              You've lived in a world of digital illusion. But today, at the Bitcoin Zitadelle Festival, 
+              you have a chance to see how deep the rabbit hole goes...
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+              <div className="matrix-line border-red-500/30 p-4">
+                <span className="text-red-400 font-mono font-bold text-lg">🔴 RED APPLE</span>
+                <p className="text-red-300 font-mono text-sm mt-2">
+                  "Show me the truth"
+                </p>
+              </div>
+              <div className="matrix-line border-green-500/30 p-4">
+                <span className="text-green-400 font-mono font-bold text-lg">🟢 GREEN APPLE</span>
+                <p className="text-green-300 font-mono text-sm mt-2">
+                  "Keep me in blissful ignorance"
+                </p>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
-        {/* CTA Buttons */}
+        {/* Morpheus Quote */}
         <motion.div 
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.3 }}
+          className="mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 2.5 }}
         >
-          <Button 
-            variant="outline"
-            size="lg"
-            className="border-2 border-cyan-400/50 text-cyan-400 hover:bg-cyan-400/10 px-8 py-4 text-lg rounded-full backdrop-blur-sm"
-          >
-            <Bitcoin className="mr-2 h-5 w-5" />
-            <span>Live Transaktionen</span>
-          </Button>
+          <div className="text-center max-w-3xl mx-auto">
+            <p className="text-green-400 font-mono text-xl md:text-2xl italic leading-relaxed">
+              "This is your last chance. After this, there is no going back."
+            </p>
+            <p className="text-green-400/70 font-mono text-sm mt-4">
+              - MORPHEUS, THE_MATRIX (1999)
+            </p>
+          </div>
         </motion.div>
       </div>
 
-      {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"></div>
+      {/* Bottom Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
       
       {/* Scroll Indicator */}
       <motion.div 
@@ -129,9 +164,12 @@ const HeroBanner = () => {
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div className="w-6 h-10 border-2 border-cyan-400/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-cyan-400 rounded-full mt-2 animate-pulse"></div>
+        <div className="w-6 h-10 border-2 border-green-400/50 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-green-400 rounded-full mt-2 animate-pulse"></div>
         </div>
+        <p className="text-green-400 font-mono text-xs mt-2 text-center">
+          SCROLL_TO_CONTINUE
+        </p>
       </motion.div>
     </div>
   );

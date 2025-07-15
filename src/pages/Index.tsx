@@ -2,21 +2,31 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import HeroBanner from '@/components/HeroBanner';
-import WalletBalance from '@/components/WalletBalance';
-import TransactionTable from '@/components/TransactionTable';
-import AppleProducts from '@/components/AppleProducts';
-import { Zap } from 'lucide-react';
+import MatrixTransactionCounter from '@/components/MatrixTransactionCounter';
+import MatrixTransactionList from '@/components/MatrixTransactionList';
+import MatrixWalletBalance from '@/components/MatrixWalletBalance';
+import MatrixAppleChoice from '@/components/MatrixAppleChoice';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-black text-green-400 overflow-x-hidden relative">
+      {/* Matrix Rain Background */}
+      <div className="fixed inset-0 opacity-20 pointer-events-none">
+        <div className="matrix-rain"></div>
+      </div>
+
+      {/* Scanlines Overlay */}
+      <div className="fixed inset-0 pointer-events-none opacity-30">
+        <div className="scanlines"></div>
+      </div>
+
       {/* Hero Section */}
       <HeroBanner />
 
-      {/* Main Content */}
-      <div className="relative z-10 px-4 md:px-6 py-16 space-y-20 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+      {/* Main Content Grid */}
+      <div className="relative z-10 px-4 md:px-6 py-16 space-y-20">
         
-        {/* Apple Products & Lightning Payment Section */}
+        {/* The Choice Section */}
         <motion.section 
           className="flex flex-col items-center"
           initial={{ opacity: 0, y: 50 }}
@@ -25,36 +35,37 @@ const Index = () => {
           viewport={{ once: true }}
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-green-400 to-red-400 bg-clip-text text-transparent">
-              Wähle deinen Apfel
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-green-400 glitch-text">
+              THE CHOICE IS YOURS
             </h2>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
-              Frisch geerntet und direkt verfügbar. Bezahle einfach per Lightning Network.
+            <p className="text-green-300 text-lg md:text-xl max-w-3xl mx-auto font-mono">
+              In the Matrix, there are only two paths. Which apple will you choose? 
+              The decision will determine your destiny in the Bitcoin realm.
             </p>
           </div>
-          <AppleProducts />
+          <MatrixAppleChoice />
         </motion.section>
 
-        {/* Wallet Balance Section */}
+        {/* System Status Dashboard */}
         <motion.section 
-          className="flex flex-col items-center"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
         >
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-cyan-400 bg-clip-text text-transparent">
-              Wallet Status
-            </h2>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
-              Live-Überblick über die aktuellen Wallet-Bestände der Apfelverkäufer.
-            </p>
+          {/* Transaction Counter */}
+          <div className="lg:col-span-1">
+            <MatrixTransactionCounter />
           </div>
-          <WalletBalance />
+
+          {/* Wallet Status */}
+          <div className="lg:col-span-2">
+            <MatrixWalletBalance />
+          </div>
         </motion.section>
 
-        {/* Transactions Section */}
+        {/* Live Transaction Feed */}
         <motion.section 
           className="flex flex-col items-center"
           initial={{ opacity: 0, y: 50 }}
@@ -63,14 +74,14 @@ const Index = () => {
           viewport={{ once: true }}
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-green-400 bg-clip-text text-transparent">
-              Live Transaktionen
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-green-400 glitch-text">
+              TRANSACTION STREAM
             </h2>
-            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
-              Verfolge alle Lightning-Zahlungen in Echtzeit. Jede Transaktion wird sofort angezeigt.
+            <p className="text-green-300 text-lg md:text-xl max-w-2xl mx-auto font-mono">
+              Live feed from the Bitcoin Lightning Network. Every choice leaves a trace.
             </p>
           </div>
-          <TransactionTable />
+          <MatrixTransactionList />
         </motion.section>
 
         {/* Footer Section */}
@@ -81,47 +92,23 @@ const Index = () => {
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
-          <div className="flex items-center gap-4 mb-8">
-            <Zap className="h-10 w-10 text-cyan-400 animate-pulse" />
-            <h3 className="text-3xl md:text-4xl font-bold text-white">
-              Bitcoin Zitadelle Festival 2025
+          <div className="text-center mb-8">
+            <h3 className="text-3xl md:text-4xl font-bold text-green-400 mb-4 glitch-text">
+              WELCOME TO THE REAL WORLD
             </h3>
-            <Zap className="h-10 w-10 text-yellow-400 animate-pulse" />
-          </div>
-          <p className="text-gray-400 text-lg md:text-xl max-w-3xl leading-relaxed mb-8">
-            Eine digitale Kunstinstallation, die das Potenzial von Bitcoin und Lightning Network 
-            für den alltäglichen Handel demonstriert. Erlebe die Zukunft des Geldes – 
-            schnell, günstig und ohne Grenzen.
-          </p>
-          
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-            <span>🍎 Frische Äpfel</span>
-            <span>⚡ Lightning Network</span>
-            <span>🏰 Bitcoin Zitadelle</span>
+            <p className="text-green-300 text-lg md:text-xl max-w-3xl leading-relaxed mb-8 font-mono">
+              You've taken your first step into a larger world. These aren't ordinary apples – 
+              they're keys to understanding the true nature of digital currency. 
+              <br />
+              <span className="text-red-400">The Matrix has you...</span> but Bitcoin will set you free.
+            </p>
           </div>
           
-          {/* Animated background elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(25)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 bg-cyan-400/20 rounded-full"
-                animate={{
-                  x: [0, Math.random() * 100 - 50],
-                  y: [0, Math.random() * 100 - 50],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: Math.random() * 3 + 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 2,
-                }}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-              />
-            ))}
+          <div className="flex flex-wrap justify-center gap-6 text-sm text-green-400 font-mono">
+            <span className="matrix-pill">🍎 ORGANIC APPLES</span>
+            <span className="matrix-pill">⚡ LIGHTNING NETWORK</span>
+            <span className="matrix-pill">₿ BITCOIN ONLY</span>
+            <span className="matrix-pill">🕶️ MATRIX APPROVED</span>
           </div>
         </motion.section>
       </div>
