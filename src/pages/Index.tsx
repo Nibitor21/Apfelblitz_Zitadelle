@@ -39,8 +39,8 @@ const Index = () => {
               THE CHOICE IS YOURS
             </h2>
             <p className="text-green-300 text-lg md:text-xl max-w-3xl mx-auto font-mono">
-              In the Matrix, there are only two paths. Which apple will you choose? 
-              The decision will determine your destiny in the Bitcoin realm.
+              Both paths lead to enlightenment. Both apples are perfect. 
+              The real choice isn't which one to take... but how much value you give.
             </p>
           </div>
           <MatrixAppleChoice />
@@ -78,13 +78,13 @@ const Index = () => {
               TRANSACTION STREAM
             </h2>
             <p className="text-green-300 text-lg md:text-xl max-w-2xl mx-auto font-mono">
-              Live feed from the Bitcoin Lightning Network. Every choice leaves a trace.
+              Live feed from the Lightning Network. Every choice creates ripples in the matrix.
             </p>
           </div>
           <MatrixTransactionList />
         </motion.section>
 
-        {/* Footer Section */}
+        {/* Mystical Closing Section */}
         <motion.section 
           className="flex flex-col items-center text-center py-20"
           initial={{ opacity: 0 }}
@@ -94,21 +94,23 @@ const Index = () => {
         >
           <div className="text-center mb-8">
             <h3 className="text-3xl md:text-4xl font-bold text-green-400 mb-4 glitch-text">
-              WELCOME TO THE REAL WORLD
+              SOUND MONEY, SOUND CHOICES
             </h3>
             <p className="text-green-300 text-lg md:text-xl max-w-3xl leading-relaxed mb-8 font-mono">
-              You've taken your first step into a larger world. These aren't ordinary apples – 
-              they're keys to understanding the true nature of digital currency. 
+              In a world of infinite possibilities, you chose to be here. 
+              You chose to pay with Bitcoin. You chose to support value-for-value.
               <br />
-              <span className="text-red-400">The Matrix has you...</span> but Bitcoin will set you free.
+              <span className="text-yellow-400">The real choice was never about the apples...</span>
+              <br />
+              <span className="text-blue-400">It was about choosing sound money.</span>
             </p>
           </div>
           
           <div className="flex flex-wrap justify-center gap-6 text-sm text-green-400 font-mono">
             <span className="matrix-pill">🍎 ORGANIC APPLES</span>
             <span className="matrix-pill">⚡ LIGHTNING NETWORK</span>
-            <span className="matrix-pill">₿ BITCOIN ONLY</span>
-            <span className="matrix-pill">🕶️ MATRIX APPROVED</span>
+            <span className="matrix-pill">₿ SOUND MONEY</span>
+            <span className="matrix-pill">🌟 VALUE FOR VALUE</span>
           </div>
         </motion.section>
       </div>

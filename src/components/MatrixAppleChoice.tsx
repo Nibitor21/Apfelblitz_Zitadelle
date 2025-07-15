@@ -16,11 +16,11 @@ const MatrixAppleChoice = () => {
   const apples = [
     {
       id: 'red',
-      name: 'RED_PILL',
-      description: 'TRUTH_AWAITS',
-      emoji: '🔴',
-      quote: '"Take the red pill and I show you how deep the rabbit hole goes"',
-      effect: 'REVEALS_REALITY',
+      name: 'RED_APPLE',
+      description: 'PASSION_PATH',
+      emoji: '🍎',
+      quote: '"Sweet, crisp, and awakening - a taste of pure energy"',
+      effect: 'ENHANCES_FOCUS',
       color: 'text-red-400',
       borderColor: 'border-red-500/50',
       bgGradient: 'from-red-900/30 to-black',
@@ -28,11 +28,11 @@ const MatrixAppleChoice = () => {
     },
     {
       id: 'green',
-      name: 'GREEN_PILL',
-      description: 'BLISSFUL_IGNORANCE',
-      emoji: '🟢',
-      quote: '"Take the green pill and the story ends, you wake up believing whatever you want to believe"',
-      effect: 'MAINTAINS_ILLUSION',
+      name: 'GREEN_APPLE',
+      description: 'WISDOM_PATH',
+      emoji: '🍏',
+      quote: '"Tart, refreshing, and enlightening - nature\'s perfect balance"',
+      effect: 'AMPLIFIES_CLARITY',
       color: 'text-green-400',
       borderColor: 'border-green-500/50',
       bgGradient: 'from-green-900/30 to-black',
@@ -79,7 +79,7 @@ const MatrixAppleChoice = () => {
           >
             <div className={`
               matrix-terminal ${apple.borderColor} ${apple.glowColor}
-              bg-gradient-to-br ${apple.bgradient} p-8 relative overflow-hidden cursor-pointer
+              bg-gradient-to-br ${apple.bgGradient} p-8 relative overflow-hidden cursor-pointer
               hover:shadow-2xl transition-all duration-500
             `}>
               {/* Matrix Code Rain Effect */}
@@ -164,7 +164,7 @@ const MatrixAppleChoice = () => {
                     />
                     
                     <Eye className="h-5 w-5 mr-3 animate-pulse relative z-10" />
-                    <span className="relative z-10">MAKE_CHOICE</span>
+                    <span className="relative z-10">CHOOSE_APPLE</span>
                   </Button>
                 </motion.div>
               </div>
@@ -218,13 +218,13 @@ const MatrixAppleChoice = () => {
                   {/* Header */}
                   <div className="text-center mb-8">
                     <h2 className="text-4xl font-black text-green-400 font-mono glitch-text mb-4">
-                      CHOICE_CONFIRMED
+                      EXCELLENT_CHOICE
                     </h2>
                     <div className="matrix-pill bg-green-900/30 border-green-400 text-green-300">
                       SELECTED: {selectedApple}
                     </div>
                     <p className="text-green-400/70 font-mono mt-4">
-                      THE_MATRIX_HAS_YOU... COMPLETE_TRANSACTION_TO_PROCEED
+                      VALUE_FOR_VALUE // PAY_WHAT_YOU_FEEL
                     </p>
                   </div>
 
@@ -233,10 +233,10 @@ const MatrixAppleChoice = () => {
                     <div className="text-center mb-6">
                       <QrCode className="h-16 w-16 text-green-400 mx-auto mb-4 animate-pulse" />
                       <h3 className="text-2xl font-bold text-green-400 font-mono mb-2">
-                        LIGHTNING_PAYMENT_REQUIRED
+                        SOUND_MONEY_PAYMENT
                       </h3>
                       <p className="text-green-300 font-mono">
-                        PAY_WHAT_YOU_WANT // MINIMUM_1_SAT
+                        LIGHTNING_NETWORK // MINIMUM_1_SAT
                       </p>
                     </div>
 
@@ -298,7 +298,7 @@ const MatrixAppleChoice = () => {
                       variant="ghost"
                       className="text-green-400/70 hover:text-green-400 font-mono text-sm"
                     >
-                      ABORT_MISSION
+                      CLOSE_TERMINAL
                     </Button>
                   </div>
                 </div>
