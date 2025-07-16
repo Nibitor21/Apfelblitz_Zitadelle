@@ -201,8 +201,49 @@ def api_balance_webhook():
         logging.error(f"Fehler bei /api/balance_webhook: {str(e)}")
         return jsonify({"error": "Serverfehler"}), 500
 
+# === NEUE API-Endpunkte zur Erweiterung für Frontend ===
+# Liste aller Transaktionen
+@app.route('/api/payment_webhook_list', methods=['GET'])
+def api_payment_webhook_list():
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT amount, received_at, comment, zap_receipt
+                FROM webhook_eingang
+                ORDER BY received_at DESC
+            ''')
+            rows = cursor.fetchall()
+
+            transactions = []
+            for row in rows:
+                transactions.append({
+                    "amount": row[0] // 1000,  # msats → sats
+                    "received_at": row[1],
+                    "comment": row[2],
+                    "is_zap": bool(row[3] and row[3].strip() not in ["", "null", "[]"])
+                })
+
+            return jsonify({"transactions": transactions})
+    except Exception as e:
+        logging.error(f"Fehler bei /api/payment_webhook_list: {str(e)}")
+        return jsonify({"error": "Serverfehler"}), 500
+
+# Gesamtanzahl aller Transaktionen
+@app.route('/api/counter_webhook', methods=['GET'])
+def api_counter_webhook():
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT COUNT(*) FROM webhook_eingang')
+            tx_count = cursor.fetchone()[0]
+            return jsonify({"tx_count": tx_count})
+    except Exception as e:
+        logging.error(f"Fehler bei /api/counter_webhook: {str(e)}")
+        return jsonify({"error": "Serverfehler"}), 500
+
 # === Start ===
 if __name__ == '__main__':
     init_db()
-    logging.info("Webhook-Service gestartet auf Port 5013.")
-    app.run(host='127.0.0.1', port=5013)
+    logging.info("Webhook-Service gestartet auf Port 5055.")
+    app.run(host='127.0.0.1', port=5055)
