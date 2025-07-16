@@ -23,7 +23,7 @@ const MatrixCounterEffect = ({
   className, 
   prefix = '', 
   suffix = '',
-  duration = 1600,
+  duration = 2500,
   delay = 5000
 }: MatrixCounterEffectProps) => {
   const text = `${prefix}${value}${suffix}`;
