@@ -110,8 +110,8 @@ const MatrixWalletBalance = () => {
               value={balances.lightning.toLocaleString()} 
               suffix=" sats"
               className="text-xl font-bold text-blue-400"
-              duration={500}
-              delay={300}
+              duration={2000}
+              delay={7000}
             />
           )}
         </div>
