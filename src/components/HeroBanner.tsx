@@ -49,7 +49,9 @@ const HeroBanner = () => {
           <MatrixText 
             text="WELCOME, PLEB"
             className="text-2xl md:text-3xl text-green-400 tracking-wider mb-4"
-            delay={500}
+            initialDelay={500}
+            letterInterval={80}
+            letterAnimationDuration={400}
           />
         </motion.div>
 

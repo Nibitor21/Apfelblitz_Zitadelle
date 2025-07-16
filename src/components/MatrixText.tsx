@@ -1,76 +1,142 @@
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+"use client"
 
-interface MatrixTextProps {
-  text: string;
-  className?: string;
-  delay?: number;
+import { useState, useEffect, useCallback, useMemo } from "react"
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
+
+interface LetterState {
+  char: string
+  isMatrix: boolean
+  isSpace: boolean
 }
 
-const MatrixText: React.FC<MatrixTextProps> = ({ 
-  text, 
-  className = "", 
-  delay = 0 
-}) => {
-  const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface MatrixTextProps {
+  text?: string
+  className?: string
+  initialDelay?: number
+  letterAnimationDuration?: number
+  letterInterval?: number
+}
 
-  const binaryChars = ['0', '1'];
-  const getRandomBinary = () => binaryChars[Math.floor(Math.random() * binaryChars.length)];
+const MatrixText = ({
+  text = "HelloWorld!",
+  className,
+  initialDelay = 200,
+  letterAnimationDuration = 500,
+  letterInterval = 100,
+}: MatrixTextProps) => {
+  const [letters, setLetters] = useState<LetterState[]>(() =>
+    text.split("").map((char) => ({
+      char,
+      isMatrix: false,
+      isSpace: char === " ",
+    })),
+  )
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  const getRandomChar = useCallback(() => (Math.random() > 0.5 ? "1" : "0"), [])
+
+  const animateLetter = useCallback(
+    (index: number) => {
+      if (index >= text.length) return
+
+      requestAnimationFrame(() => {
+        setLetters((prev) => {
+          const newLetters = [...prev]
+          if (!newLetters[index].isSpace) {
+            newLetters[index] = {
+              ...newLetters[index],
+              char: getRandomChar(),
+              isMatrix: true,
+            }
+          }
+          return newLetters
+        })
+
+        setTimeout(() => {
+          setLetters((prev) => {
+            const newLetters = [...prev]
+            newLetters[index] = {
+              ...newLetters[index],
+              char: text[index],
+              isMatrix: false,
+            }
+            return newLetters
+          })
+        }, letterAnimationDuration)
+      })
+    },
+    [getRandomChar, text, letterAnimationDuration],
+  )
+
+  const startAnimation = useCallback(() => {
+    if (isAnimating) return
+
+    setIsAnimating(true)
+    let currentIndex = 0
+
+    const animate = () => {
+      if (currentIndex >= text.length) {
+        setIsAnimating(false)
+        return
+      }
+
+      animateLetter(currentIndex)
+      currentIndex++
+      setTimeout(animate, letterInterval)
+    }
+
+    animate()
+  }, [animateLetter, text, isAnimating, letterInterval])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (currentIndex < text.length) {
-        // Binary transition phase
-        let binaryCount = 0;
-        const binaryInterval = setInterval(() => {
-          if (binaryCount < 8) {
-            setDisplayText(prev => 
-              prev.slice(0, currentIndex) + 
-              Array(Math.min(3, text.length - currentIndex))
-                .fill(0)
-                .map(() => getRandomBinary())
-                .join('') +
-              prev.slice(currentIndex + 3)
-            );
-            binaryCount++;
-          } else {
-            clearInterval(binaryInterval);
-            // Reveal actual character
-            setDisplayText(prev => 
-              prev.slice(0, currentIndex) + 
-              text[currentIndex] + 
-              prev.slice(currentIndex + 1)
-            );
-            setCurrentIndex(prev => prev + 1);
-          }
-        }, 50);
-      }
-    }, delay + currentIndex * 100);
+    const timer = setTimeout(startAnimation, initialDelay)
+    return () => clearTimeout(timer)
+  }, [])
 
-    return () => clearTimeout(timer);
-  }, [currentIndex, text, delay]);
+  const motionVariants = useMemo(
+    () => ({
+      matrix: {
+        color: "#00ff00",
+        textShadow: "0 2px 4px rgba(0, 255, 0, 0.5)",
+      },
+      normal: {
+        color: "currentColor",
+        textShadow: "none",
+      },
+    }),
+    [],
+  )
 
   return (
-    <motion.span 
-      className={`font-mono ${className}`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+    <div
+      className={cn("flex items-center justify-center", className)}
+      aria-label="Matrix text animation"
     >
-      {displayText}
-      {currentIndex < text.length && (
-        <motion.span
-          className="text-green-400"
-          animate={{ opacity: [1, 0, 1] }}
-          transition={{ duration: 0.5, repeat: Infinity }}
-        >
-          |
-        </motion.span>
-      )}
-    </motion.span>
-  );
-};
+      <div className="flex flex-wrap items-center justify-center">
+        {letters.map((letter, index) => (
+          <motion.div
+            key={`${index}-${letter.char}`}
+            className="font-mono w-[1ch] text-center overflow-hidden"
+            initial="normal"
+            animate={letter.isMatrix ? "matrix" : "normal"}
+            variants={motionVariants}
+            transition={{
+              duration: 0.1,
+              ease: "easeInOut",
+            }}
+            style={{
+              display: "inline-block",
+              fontVariantNumeric: "tabular-nums",
+            }}
+          >
+            {letter.isSpace ? "\u00A0" : letter.char}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
-export default MatrixText;
+export default MatrixText
