@@ -126,7 +126,7 @@ const MatrixCounterEffect = ({
           animate={letter.isMatrix ? "matrix" : "normal"}
           variants={motionVariants}
           transition={{
-            duration: 0.1,
+            duration: 0.2,
             ease: "easeInOut",
           }}
         >
