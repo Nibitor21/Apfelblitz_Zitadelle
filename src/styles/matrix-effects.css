@@ -1,0 +1,248 @@
+/* Matrix Rain Background */
+.matrix-rain-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 255, 0, 0.03) 0%, rgba(0, 255, 0, 0.01) 50%, rgba(0, 255, 0, 0.03) 100%);
+  animation: matrix-rain 20s linear infinite;
+}
+
+@keyframes matrix-rain {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+/* Grid Overlay */
+.grid-overlay {
+  background-image: linear-gradient(rgba(34, 197, 94, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 197, 94, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  width: 100%;
+  height: 100%;
+  animation: grid-pulse 4s ease-in-out infinite;
+}
+
+@keyframes grid-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+/* Enhanced Scanlines */
+.scanlines-enhanced {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(34, 197, 94, 0.03) 2px,
+    rgba(34, 197, 94, 0.03) 4px
+  );
+  animation: scanlines-move 2s linear infinite;
+}
+
+@keyframes scanlines-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+/* Matrix Stream */
+.matrix-stream {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(34, 197, 94, 0.6) 50%, transparent 100%);
+  animation: stream-flow 3s ease-in-out infinite;
+}
+
+@keyframes stream-flow {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Enhanced Matrix Loader */
+.matrix-loader-enhanced {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(34, 197, 94, 0.3);
+  border-top: 3px solid #22c55e;
+  border-radius: 50%;
+  animation: matrix-spin 1s linear infinite;
+  position: relative;
+}
+
+.matrix-loader-enhanced::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 1px solid rgba(34, 197, 94, 0.1);
+  border-radius: 50%;
+  animation: matrix-spin 2s linear infinite reverse;
+}
+
+@keyframes matrix-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced Matrix Terminal */
+.matrix-terminal-enhanced {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(34, 197, 94, 0.05) 50%, rgba(0, 0, 0, 0.9) 100%);
+  border: 2px solid rgba(34, 197, 94, 0.4);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-terminal-enhanced::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.1), transparent);
+  animation: terminal-sweep 3s ease-in-out infinite;
+}
+
+@keyframes terminal-sweep {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+/* Glitch Text Effects */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  animation: glitch-1 2s infinite;
+  color: #ff0000;
+  z-index: -1;
+}
+
+.glitch-text::after {
+  animation: glitch-2 2s infinite;
+  color: #00ffff;
+  z-index: -2;
+}
+
+@keyframes glitch-1 {
+  0%,
+  14%,
+  15%,
+  49%,
+  50%,
+  99%,
+  100% {
+    transform: translate(0);
+  }
+  15%,
+  49% {
+    transform: translate(-2px, 0);
+  }
+}
+
+@keyframes glitch-2 {
+  0%,
+  20%,
+  21%,
+  62%,
+  63%,
+  99%,
+  100% {
+    transform: translate(0);
+  }
+  21%,
+  62% {
+    transform: translate(2px, 0);
+  }
+}
+
+.glitch-text-small {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text-small::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: glitch-small 3s infinite;
+  color: #00ffff;
+  z-index: -1;
+}
+
+@keyframes glitch-small {
+  0%,
+  90%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+  91%,
+  99% {
+    transform: translate(1px, 0);
+    opacity: 0.7;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .matrix-terminal-enhanced {
+    padding: 1rem;
+  }
+
+  .glitch-text {
+    font-size: 1.5rem;
+  }
+}
