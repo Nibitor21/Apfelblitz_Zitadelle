@@ -1,17 +1,14 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, QrCode, Copy, CheckCircle, Eye } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import PaymentModal from './PaymentModal';
 
 const MatrixAppleChoice = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedApple, setSelectedApple] = useState('');
-  const [copied, setCopied] = useState(false);
   const [hoveredApple, setHoveredApple] = useState<string | null>(null);
-  
-  const lnurl = "LNURL1DP68GURN8GHJ7MRWVFHHGTNYV5HKCMN4WFK8QT65F4ZHX7R8QHRT9U";
-  const lightningUrl = `lightning:${lnurl}`;
 
   const apples = [
     {
@@ -39,20 +36,6 @@ const MatrixAppleChoice = () => {
       glowColor: 'shadow-green-500/25'
     }
   ];
-
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
-  };
-
-  const openLightningWallet = () => {
-    window.location.href = lightningUrl;
-  };
 
   const handleChoice = (apple: typeof apples[0]) => {
     setSelectedApple(apple.name);
@@ -174,139 +157,10 @@ const MatrixAppleChoice = () => {
       </div>
 
       {/* Payment Modal */}
-      <AnimatePresence>
-        {showPaymentModal && (
-          <motion.div 
-            className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeModal}
-          >
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0, rotateY: -90 }}
-              animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-              exit={{ scale: 0.5, opacity: 0, rotateY: 90 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative"
-            >
-              <div className="matrix-terminal border-green-500/50 w-full max-w-2xl p-8 relative overflow-hidden">
-                {/* Matrix Effect Background */}
-                <div className="absolute inset-0 opacity-20">
-                  {[...Array(30)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-px h-full bg-green-400"
-                      animate={{
-                        opacity: [0, 1, 0],
-                        x: [0, Math.random() * 400],
-                      }}
-                      transition={{
-                        duration: Math.random() * 3 + 2,
-                        repeat: Infinity,
-                        delay: Math.random() * 2,
-                      }}
-                      style={{
-                        left: `${Math.random() * 100}%`,
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <div className="relative z-10">
-                  {/* Header */}
-                  <div className="text-center mb-8">
-                    <h2 className="text-4xl font-black text-green-400 font-mono glitch-text mb-4">
-                      EXCELLENT_CHOICE
-                    </h2>
-                    <div className="matrix-pill bg-green-900/30 border-green-400 text-green-300">
-                      SELECTED: {selectedApple}
-                    </div>
-                    <p className="text-green-400/70 font-mono mt-4">
-                      VALUE_FOR_VALUE // PAY_WHAT_YOU_FEEL
-                    </p>
-                  </div>
-
-                  {/* Payment Interface */}
-                  <div className="matrix-line border-green-500/30 p-6 mb-6">
-                    <div className="text-center mb-6">
-                      <QrCode className="h-16 w-16 text-green-400 mx-auto mb-4 animate-pulse" />
-                      <h3 className="text-2xl font-bold text-green-400 font-mono mb-2">
-                        SOUND_MONEY_PAYMENT
-                      </h3>
-                      <p className="text-green-300 font-mono">
-                        LIGHTNING_NETWORK // MINIMUM_1_SAT
-                      </p>
-                    </div>
-
-                    {/* LNURL Display */}
-                    <div className="bg-black/50 rounded-lg p-4 mb-6 border border-green-500/30">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-green-400 font-mono text-sm">LNURL_CODE:</span>
-                        <Button
-                          onClick={() => copyToClipboard(lnurl)}
-                          variant="ghost"
-                          size="sm"
-                          className="text-green-400 hover:text-green-300 hover:bg-green-900/20"
-                        >
-                          {copied ? (
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              className="flex items-center gap-1"
-                            >
-                              <CheckCircle className="h-4 w-4 text-green-400" />
-                              <span className="text-xs">COPIED</span>
-                            </motion.div>
-                          ) : (
-                            <Copy className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                      
-                      <code className="text-green-400 font-mono text-sm break-all leading-relaxed block">
-                        {lnurl}
-                      </code>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Button
-                        onClick={openLightningWallet}
-                        className="bg-green-900/30 border border-green-500/50 text-green-400 hover:bg-green-900/50 font-mono font-bold py-4"
-                      >
-                        <Zap className="h-5 w-5 mr-2 animate-pulse" />
-                        OPEN_WALLET
-                      </Button>
-                      
-                      <Button
-                        onClick={() => copyToClipboard(lnurl)}
-                        variant="outline"
-                        className="border-green-500/30 text-green-400 hover:bg-green-900/20 font-mono font-bold py-4"
-                      >
-                        <Copy className="h-5 w-5 mr-2" />
-                        COPY_CODE
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* Footer */}
-                  <div className="text-center">
-                    <Button
-                      onClick={closeModal}
-                      variant="ghost"
-                      className="text-green-400/70 hover:text-green-400 font-mono text-sm"
-                    >
-                      CLOSE_TERMINAL
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <PaymentModal 
+        isOpen={showPaymentModal} 
+        onClose={closeModal} 
+      />
     </div>
   );
 };

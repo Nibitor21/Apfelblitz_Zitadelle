@@ -39,7 +39,7 @@ const HeroBanner = () => {
       {/* Main Hero Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         
-        {/* Matrix Text Header */}
+        {/* Matrix Text Header with smooth animation */}
         <motion.div 
           className="mb-12"
           initial={{ opacity: 0, y: -30 }}
@@ -48,32 +48,45 @@ const HeroBanner = () => {
         >
           <MatrixText 
             text="WELCOME, PLEB"
-            className="text-2xl md:text-3xl text-green-400 tracking-wider mb-4"
+            className="text-2xl md:text-3xl tracking-wider mb-4 min-h-0 flex"
             initialDelay={500}
-            letterInterval={80}
-            letterAnimationDuration={400}
+            letterInterval={120}
+            letterAnimationDuration={600}
           />
         </motion.div>
 
-        {/* Main Title */}
+        {/* Main Title with Matrix effect */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 1.5 }}
+          transition={{ duration: 1.2, delay: 2.0 }}
           className="mb-8"
         >
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
-            <span className="block text-green-400 mb-2">
-              TAKE CONTROL.
-            </span>
-            <span className="block text-white">
-              UNPLUG GRACEFULLY.
-            </span>
-          </h1>
+          <div className="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-6">
+            <MatrixText 
+              text="TAKE CONTROL."
+              className="block text-green-400 mb-2 min-h-0 flex justify-center"
+              initialDelay={2500}
+              letterInterval={100}
+              letterAnimationDuration={400}
+            />
+            <MatrixText 
+              text="UNPLUG GRACEFULLY."
+              className="block text-white min-h-0 flex justify-center"
+              initialDelay={4000}
+              letterInterval={100}
+              letterAnimationDuration={400}
+            />
+          </div>
           
-          <p className="text-lg md:text-xl text-green-300/80 max-w-2xl mx-auto leading-relaxed mb-8">
+          <motion.p 
+            className="text-lg md:text-xl text-green-300/80 max-w-2xl mx-auto leading-relaxed mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 6, duration: 1 }}
+          >
             No banks. No borders. Just you and the signal.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* Tech Badge */}
@@ -81,7 +94,7 @@ const HeroBanner = () => {
           className="mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 2.2 }}
+          transition={{ duration: 1, delay: 7 }}
         >
           <div className="inline-flex items-center gap-3 matrix-terminal px-6 py-3">
             <Zap className="h-5 w-5 text-yellow-400 animate-pulse" />
@@ -97,7 +110,7 @@ const HeroBanner = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 2.8 }}
+          transition={{ duration: 1, delay: 7.5 }}
         >
           <motion.button
             whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(34, 197, 94, 0.5)" }}
