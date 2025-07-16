@@ -78,15 +78,6 @@ const HeroBanner = () => {
               letterAnimationDuration={400}
             />
           </div>
-          
-          <motion.p 
-            className="text-lg md:text-xl text-green-300/80 max-w-2xl mx-auto leading-relaxed mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 6, duration: 1 }}
-          >
-            No banks. No borders. Just you and the signal.
-          </motion.p>
         </motion.div>
 
         {/* Tech Badge */}
@@ -94,7 +85,7 @@ const HeroBanner = () => {
           className="mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 7 }}
+          transition={{ duration: 1, delay: 6 }}
         >
           <div className="inline-flex items-center gap-3 matrix-terminal px-6 py-3">
             <Zap className="h-5 w-5 text-yellow-400 animate-pulse" />
@@ -103,30 +94,6 @@ const HeroBanner = () => {
             </span>
             <Signal className="h-5 w-5 text-green-400" />
           </div>
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div 
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 7.5 }}
-        >
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(34, 197, 94, 0.5)" }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 min-w-[200px]"
-          >
-            ENTER THE MARKET
-          </motion.button>
-          
-          <motion.button
-            whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(34, 197, 94, 0.3)" }}
-            whileTap={{ scale: 0.95 }}
-            className="border-2 border-green-500 text-green-400 hover:bg-green-500/10 font-bold px-8 py-4 rounded-lg text-lg transition-all duration-300 min-w-[200px]"
-          >
-            LEARN MORE
-          </motion.button>
         </motion.div>
       </div>
 
