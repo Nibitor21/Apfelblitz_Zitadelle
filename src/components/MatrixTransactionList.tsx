@@ -161,7 +161,7 @@ const MatrixTransactionList = () => {
                         <div className="flex items-center gap-1 max-w-[200px]">
                           <MessageSquare className="h-3 w-3 text-green-400" />
                           <span className="text-green-300 font-mono text-sm truncate">
-                            "{tx.comment}"
+                            {tx.comment}
                           </span>
                         </div>
                       )}
